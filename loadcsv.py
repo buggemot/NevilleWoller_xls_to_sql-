@@ -66,68 +66,69 @@ def load_csv_file_to_mysql(cfg_mysql, products_file):
     table_name = products_file.split('.')[0]
 
     sql_delete_table = """DROP TABLE IF EXISTS `{}`;""".format(table_name)
-    run_sql(sql_delete_table, connection)
+    run_sql(connection, sql_delete_table)
 
     sql_create_table = """CREATE TABLE `{}` (
-    `ID`                                 int CHARACTER SET utf8 DEFAULT NULL,
+    `ID`                                 int DEFAULT NULL,
     `SKU`                                varchar(100) CHARACTER SET utf8 DEFAULT NULL,
     `BrandName`                          varchar(100) CHARACTER SET utf8 DEFAULT NULL,
-    `Name`                               varchar(300) CHARACTER SET utf8 DEFAULT NULL,
-    `Stock`                              int CHARACTER SET utf8 DEFAULT NULL,
-    `Price`                              decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `Cost`                               decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `EANCodes`                           decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `MainImageURL`                       varchar(300) CHARACTER SET utf8 DEFAULT NULL,
-    `ThumbImageURL`                      varchar(300) CHARACTER SET utf8 DEFAULT NULL,
-    `Specifications`                     varchar(300) CHARACTER SET utf8 DEFAULT NULL,
+    `Name`                               varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+    `Stock`                              int DEFAULT NULL,
+    `Price`                              decimal(20, 4) DEFAULT NULL,
+    `Cost`                               decimal(20, 4) DEFAULT NULL,
+    `EANCodes`                           decimal(20, 4) DEFAULT NULL,
+    `MainImageURL`                       varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+    `ThumbImageURL`                      varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+    `Specifications`                     varchar(100) CHARACTER SET utf8 DEFAULT NULL,
     `Description`                        varchar(300) CHARACTER SET utf8 DEFAULT NULL,
-    `CategoryName`                       varchar(300) CHARACTER SET utf8 DEFAULT NULL,
-    `SubCategoryName`                    varchar(300) CHARACTER SET utf8 DEFAULT NULL,
-    `SubSubCategoryName`                 varchar(300) CHARACTER SET utf8 DEFAULT NULL,
-    `1stCheapestDistributorID`           int CHARACTER SET utf8 DEFAULT NULL,
+    `CategoryName`                       varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+    `SubCategoryName`                    varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+    `SubSubCategoryName`                 varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+    `1stCheapestDistributorID`           int DEFAULT NULL,
     `1stCheapestDistributorName`         varchar(300) CHARACTER SET utf8 DEFAULT NULL,
-    `1stCheapestDistributorPrice`        decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `1stCheapestDistributorStock`        int CHARACTER SET utf8 DEFAULT NULL,
-    `1stCheapestDistributorProductName   int CHARACTER SET utf8 DEFAULT NULL,
-    `1stCheapestDistributorDeliveryCost  decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `1stCheapestDistributorSKU           int CHARACTER SET utf8 DEFAULT NULL,
-    `2ndCheapestDistributorID            decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `2ndCheapestDistributorName          int CHARACTER SET utf8 DEFAULT NULL,
-    `2ndCheapestDistributorPrice         decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `2ndCheapestDistributorStock         decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `2ndCheapestDistributorProductName   int CHARACTER SET utf8 DEFAULT NULL,
-    `2ndCheapestDistributorDeliveryCost  decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `2ndCheapestDistributorSKU           int CHARACTER SET utf8 DEFAULT NULL,
-    `3rdCheapestDistributorID            decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `3rdCheapestDistributorName          int CHARACTER SET utf8 DEFAULT NULL,
-    `3rdCheapestDistributorPrice         decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `3rdCheapestDistributorStock         decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `3rdCheapestDistributorProductName   int CHARACTER SET utf8 DEFAULT NULL,
-    `3rdCheapestDistributorDeliveryCost  decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `3rdCheapestDistributorSKU           int CHARACTER SET utf8 DEFAULT NULL,
-    `4thCheapestDistributorID            decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `4thCheapestDistributorName          int CHARACTER SET utf8 DEFAULT NULL,
-    `4thCheapestDistributorPrice         decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `4thCheapestDistributorStock         decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `4thCheapestDistributorProductName   int CHARACTER SET utf8 DEFAULT NULL,
-    `4thCheapestDistributorDeliveryCost  decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `4thCheapestDistributorSKU           int CHARACTER SET utf8 DEFAULT NULL,
-    `5thCheapestDistributorID            decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `5thCheapestDistributorName          int CHARACTER SET utf8 DEFAULT NULL,
-    `5thCheapestDistributorPrice         decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `5thCheapestDistributorStock         decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `5thCheapestDistributorProductName   int CHARACTER SET utf8 DEFAULT NULL,
-    `5thCheapestDistributorDeliveryCost  decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `5thCheapestDistributorSKU           int CHARACTER SET utf8 DEFAULT NULL,
-    `CategoryID                          int CHARACTER SET utf8 DEFAULT NULL,
-    `Title                               int CHARACTER SET utf8 DEFAULT NULL,
-    `Weight                              decimal(20, 4) CHARACTER SET utf8 DEFAULT NULL,
-    `DescriptionType                     int CHARACTER SET utf8 DEFAULT NULL,
+    `1stCheapestDistributorPrice`        decimal(20, 4) DEFAULT NULL,
+    `1stCheapestDistributorStock`        int DEFAULT NULL,
+    `1stCheapestDistributorProductName`  int DEFAULT NULL,
+    `1stCheapestDistributorDeliveryCost` decimal(20, 4) DEFAULT NULL,
+    `1stCheapestDistributorSKU`          int DEFAULT NULL,
+    `2ndCheapestDistributorID`           decimal(20, 4) DEFAULT NULL,
+    `2ndCheapestDistributorName`         int DEFAULT NULL,
+    `2ndCheapestDistributorPrice`        decimal(20, 4) DEFAULT NULL,
+    `2ndCheapestDistributorStock`        decimal(20, 4) DEFAULT NULL,
+    `2ndCheapestDistributorProductName`  int DEFAULT NULL,
+    `2ndCheapestDistributorDeliveryCost` decimal(20, 4) DEFAULT NULL,
+    `2ndCheapestDistributorSKU`          int DEFAULT NULL,
+    `3rdCheapestDistributorID`           decimal(20, 4) DEFAULT NULL,
+    `3rdCheapestDistributorName`         int DEFAULT NULL,
+    `3rdCheapestDistributorPrice`        decimal(20, 4) DEFAULT NULL,
+    `3rdCheapestDistributorStock`        decimal(20, 4) DEFAULT NULL,
+    `3rdCheapestDistributorProductName`  int DEFAULT NULL,
+    `3rdCheapestDistributorDeliveryCost` decimal(20, 4) DEFAULT NULL,
+    `3rdCheapestDistributorSKU`          int DEFAULT NULL,
+    `4thCheapestDistributorID`           decimal(20, 4) DEFAULT NULL,
+    `4thCheapestDistributorName`         int DEFAULT NULL,
+    `4thCheapestDistributorPrice`        decimal(20, 4) DEFAULT NULL,
+    `4thCheapestDistributorStock`        decimal(20, 4) DEFAULT NULL,
+    `4thCheapestDistributorProductName`  int DEFAULT NULL,
+    `4thCheapestDistributorDeliveryCost` decimal(20, 4) DEFAULT NULL,
+    `4thCheapestDistributorSKU`          int DEFAULT NULL,
+    `5thCheapestDistributorID`           decimal(20, 4) DEFAULT NULL,
+    `5thCheapestDistributorName`         int DEFAULT NULL,
+    `5thCheapestDistributorPrice`        decimal(20, 4) DEFAULT NULL,
+    `5thCheapestDistributorStock`        decimal(20, 4) DEFAULT NULL,
+    `5thCheapestDistributorProductName`  int DEFAULT NULL,
+    `5thCheapestDistributorDeliveryCost` decimal(20, 4) DEFAULT NULL,
+    `5thCheapestDistributorSKU`          int DEFAULT NULL,
+    `CategoryID`                         int DEFAULT NULL,
+    `Title`                              int DEFAULT NULL,
+    `Weight`                             decimal(20, 4) DEFAULT NULL,
+    `DescriptionType`                    int DEFAULT NULL,
     KEY `ID` (`ID`)
     ) ENGINE=InnoDB;""".format(table_name)
+    run_sql(connection, sql_create_table)
 
-    run_sql(sql_create_table, connection)
-
+    sql_load_csv = """LOAD DATA INFILE '{}' INTO TABLE {};""".format(products_file, table_name)
+    run_sql(connection, sql_load_csv)
 
 def check_and_download_file_from_ftp(files_ftp, ftp, result_of_previous_connection):
     current_year = datetime.now().year
@@ -143,16 +144,17 @@ def check_and_download_file_from_ftp(files_ftp, ftp, result_of_previous_connecti
             str_previous_time_of_file = result_of_previous_connection[filename]
 
             if is_file_changed(str_previous_time_of_file, str_time_file):
+                is_changed = True
                 try:
                     result_of_connection[filename] = str_time_file
                     with open(filename, 'wb') as f:
                         ftp.retrbinary('RETR ' + filename, f.write)
-                    is_changed = True
                 except Exception as e:
                     print("Erorr of downloading file from ftp: {}".format(e))
             else:
                 print("File {} not changed".format(filename))
         else:
+            is_changed = True
             try:
                 result_of_connection[filename] = str_time_file
                 with open(filename, 'wb') as f:
@@ -188,10 +190,9 @@ def main():
 
     result_of_previous_connection = load_result_of_previous_connection(file_result)
     result_of_current_connection, is_changed = check_and_download_file_from_ftp(files_ftp, ftp, result_of_previous_connection)
-    save_result_of_current_connection(result_of_current_connection, file_result)
-
     if is_changed:
-        load_csv_file_to_mysql(cfg_mysql, products_file):
+        save_result_of_current_connection(result_of_current_connection, file_result)
+    load_csv_file_to_mysql(cfg_mysql, products_file)
 
 if __name__ == "__main__":
     main()
