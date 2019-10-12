@@ -152,6 +152,7 @@ def check_and_download_file_from_ftp(files_ftp, ftp, result_of_previous_connecti
                 except Exception as e:
                     print("Erorr of downloading file from ftp: {}".format(e))
             else:
+                result_of_connection[filename] = str_time_file
                 print("File {} not changed".format(filename))
         else:
             is_changed = True
