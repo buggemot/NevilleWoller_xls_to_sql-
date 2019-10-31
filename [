@@ -1,0 +1,33 @@
+[
+    {
+        "purchaseUUID": {generated},
+        "salesOrderUUID": "aaaa-bbbb-cccc-dddd",
+        "supplier": "Ingram Micro",
+        "dropShipping": true,
+        "shippingCost": {calculated},
+        "totalCost": {shipping cost + total line item cost},
+        "items": [
+            {
+                "sku": "VX2758-2KP-MHD",
+                "qty": 5,
+                "price": 407.14
+            }
+        ]
+    },
+    {
+        "purchaseUUID": {generated},
+        "salesOrderUUID": "aaaa-bbbb-cccc-dddd",
+        "supplier": "XiT Distribution",
+        "dropShipping": true,
+        "shippingCost": {calculated},
+        "totalCost": {shipping cost + total line item cost},
+        "items": [
+            {
+                "sku": "VX3276-2K",
+                "qty": 1,
+                "price": 282
+            }
+
+        ]
+    }
+]
