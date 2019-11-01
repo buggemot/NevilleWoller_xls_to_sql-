@@ -12,9 +12,10 @@
 
 import os
 import openpyxl
-import pdb
+# import pdb
 import warnings
 from collections import namedtuple
+from string import digits
 
 def read_q_file_and_fill_ans(q_file, sheets_cells, sh_ans, first_empty_column):
 
@@ -42,6 +43,23 @@ def get_column_range(sh, range_cells):
 
 	return [sh[i].column for i in range_cells.split(":")]
 
+def check_merge_cell(cell_coordinate):
+	if '/' in cell_coordinate:
+		first, second = cell_coordinate.split('/')
+		cell_coordinate = first + ''.join([i for i in second if i in digits])
+
+	return cell_coordinate
+
+def extract_letter_from_coordinate(coordinate):
+	letters = ''.join(l for l in coordinate if l not in digits)
+	return letters
+
+def find_first_empty_column(sh_ans, first_empty_row, first_full_column):
+	col = first_full_column
+	while sh_ans.cell(first_empty_row, col).value:
+		col += 1
+	return col
+
 def read_fill_ans_file(answer_file, q_files, main_parameters):
 
 	sheets_cells = {}
@@ -64,28 +82,33 @@ def read_fill_ans_file(answer_file, q_files, main_parameters):
 		for k in main_parameters.describe_cell:
 			if sh_ans.cell(*k).value != main_parameters.describe_cell[k]:
 				print('Not found cell"{}" which describe where to get data  \
-					from the question spreadsheet'.format(main_parameters['describe_cell'][k]))
+					from the question spreadsheet'.format(main_parameters.describe_cell[k]))
 				break
 
 			if main_parameters.describe_cell[k] == "Sheet":
 				first_empty_row = k[0]
+				first_full_column = k[1]
 				for i in range(k[0] + 1, sh_ans.max_row + 1):
 					sheet_name = sh_ans.cell(i, k[1]).value
 					cell_coordinate = sh_ans.cell(i, k[1] + 1).value
 
-					if  sheet_name in sheets_cells:
-						sheets_cells[sheet_name].append((cell_coordinate, i))
-					else:
-						sheets_cells[sheet_name] = [(cell_coordinate, i)]
+					if sheet_name and cell_coordinate:
+						cell_coordinate = check_merge_cell(cell_coordinate)
+
+						if  sheet_name in sheets_cells:
+							sheets_cells[sheet_name].append((cell_coordinate, i))
+						else:
+							sheets_cells[sheet_name] = [(cell_coordinate, i)]
 
 		if sh_ans:
-			first_empty_column = main_parameters.first_empty_column
+			first_empty_column = find_first_empty_column(sh_ans, first_empty_row + 1, first_full_column)
+			# pdb.set_trace()
 			for q_file in q_files:
 				full_path_q_file = os.path.join(main_parameters.dir_question_files, q_file)
 				sh_ans.cell(first_empty_row, first_empty_column).value = q_file
 				print("Question file: {}".format(full_path_q_file))
 				read_q_file_and_fill_ans(full_path_q_file, sheets_cells, sh_ans, first_empty_column)
-			first_empty_column += 1
+				first_empty_column += 1
 
 		book_ans.save(answer_file)
 		book_ans.close()
@@ -95,7 +118,6 @@ def main():
 	warnings.filterwarnings("ignore")
 
 	Parameters = namedtuple('Parameters', [
-		'first_empty_column',
 		'dir_question_files',
 		'dir_answer_files',
 		'describe_cell',
@@ -103,7 +125,6 @@ def main():
 		])	
 
 	main_parameters = Parameters(
-		first_empty_column = 6,
 		dir_question_files = 'questions',
 		dir_answer_files = 'answers',
 		describe_cell = {(11,2): 'Sheet', (11,3): 'Cell'},
@@ -112,8 +133,8 @@ def main():
 
 	q_files = [f for f in os.listdir(main_parameters.dir_question_files) if f.endswith('xlsx')]
 	answer_files = [os.path.join(main_parameters.dir_answer_files, f) 
-					for f in os.listdir(main_parameters.dir_answer_files) if f.endswith('xlsx')]
-
+					 for f in os.listdir(main_parameters.dir_answer_files) if f.endswith('xlsx')]
+	
 	for ans_file in answer_files:
 		print("Answer file: {}".format(ans_file))
 		read_fill_ans_file(ans_file, q_files, main_parameters)
